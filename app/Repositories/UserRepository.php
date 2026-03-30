@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\HeadOfFamily;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -64,12 +65,13 @@ class UserRepository implements UserRepositoryInterface
                     throw new Exception($e->getMessage());
           }
       }
-        public function update(string $id, array $data){
+        public function update(string $id, array $data) {
           DB::beginTransaction();
 
           try {
              $user = User::find($id);
              $user->name = $data['name'];
+
              if (isset($data['password']))  { 
                 $user->password = bcrypt($data['password']);
              }
@@ -82,6 +84,7 @@ class UserRepository implements UserRepositoryInterface
                     DB::rollBack();
                     throw new Exception($e->getMessage());
           }
+        
       }
 
       public function delete(string $id)
@@ -89,12 +92,12 @@ class UserRepository implements UserRepositoryInterface
         DB::beginTransaction();
 
      try {
-             $user = User::find($id);
-             $user->delete();
+             $headOfFamily = HeadOfFamily::find($id);
+             $headOfFamily->delete();
              DB::commit();
 
 
-             return $user;
+             return $headOfFamily;
              } catch (\Exception $e) {
                     DB::rollBack();
                     throw new Exception($e->getMessage());

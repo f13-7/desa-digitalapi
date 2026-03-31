@@ -3,28 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\HeadOfFamilyStoreRequest;
+use App\Http\Resources\HeadOfFamilyResource;
+use App\Http\Resources\PaginateResource;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
 use Illuminate\Http\Request;
 
 class HeadOfFamilyController extends Controller
 {
- private HeadOfFamilyRepositoryInterface $userRepository;
+ private HeadOfFamilyRepositoryInterface $headOfFamilyRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository) {
-        $this->userRepository = $userRepository;
+    public function __construct(HeadOfFamilyRepositoryInterface $headOfFamilyRepository) {
+        $this->headOfFamilyRepository = $headOfFamilyRepository;
     }
     public function index(Request $request)
     {
         try{
-            $users = $this->userRepository->getAll(
+            $headOfFamilies = $this->headOfFamilyRepository->getAll(
                 $request->search,
                 $request->limit,
                 true
             );
-           return ResponseHelper::jsonResponse(true, 'Data user Berhasil Diambil', UserResource::collection($users), 200);
-
+           return ResponseHelper::jsonResponse(true, 'Data kepala keluarga Berhasi+l Diambil', HeadOfFamilyResource::collection($headOfFamilies), 200);
         } catch(\Exception $e){
-            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+            return ResponseHelper::jsonResponse(true, 'Data kepala keluarga Gagal Diambil', null, 500);
         }
     }
 
@@ -36,29 +38,29 @@ class HeadOfFamilyController extends Controller
         ]);
 
         try {
-            $users = $this->userRepository->getAllPaginated(
+            $headOfFamilies = $this->headOfFamilyRepository->getAllPaginated(
                 $request['search'] ?? null,
                 $request['row_per_page']
             );
 
-            return ResponseHelper::jsonResponse(true, 'Data user Berhasil Diambil', PaginateResource::make($users, UserResource::class), 200);
+            return ResponseHelper::jsonResponse(true,  'Data kepala keluarga Berhasil Diambil', PaginateResource::make($headOfFamilies, HeadOfFamilyResource::class), 200);
 
         } catch(\Exception $e){
-            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+            return ResponseHelper::jsonResponse(true, 'Data kepala keluarga Gagal Diambil', null, 500);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserStoreRequest $request)
+    public function store(HeadOfFamilyStoreRequest $request)
     {
         $request = $request->validated();
 
         try{
-            $user = $this->userRepository->create($request);
+            $user = $this->headOfFamilyRepository->create($request);
 
-            return ResponseHelper::jsonResponse(true, 'User berhasil ditambahkan', new UserResource($user), 201);
+            return ResponseHelper::jsonResponse(true, 'Kepala Keluarga berhasil ditambahkan', new HeadOfFamilyResource($user), 201);
 
         }
         catch(\Exception $e){

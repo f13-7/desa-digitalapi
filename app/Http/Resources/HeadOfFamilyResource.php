@@ -14,6 +14,16 @@ class HeadOfFamilyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user' => new UserResource($this->user),
+            'profile_picture' => $this->profile_picure,
+            'identity_number' => $this->identity_number,
+            'gender' => $this->gender,
+            'date_of_birth'=> $this->date_of_birth,
+            'phone_number' => $this->phone_number,
+            'occupation' => $this->occupation,
+            'marital_status' => $this->marital_status,
+        ];
     }
 }

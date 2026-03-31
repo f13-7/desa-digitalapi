@@ -26,7 +26,7 @@ class UserStoreRequest extends FormRequest
         public function attributes()
     {
         return [
-           'name' => 'Nama',
+             'name' => 'Nama',
            'email' => 'Email',
            'password' => 'Kata Sandi'
         ];
@@ -38,9 +38,10 @@ class UserStoreRequest extends FormRequest
             'required' => ':attribute harus disini',
             'string' => ':attribute harus berupa string',
             'max' => ':attribute maksimal :max karakter',
-            'min' => ':attribute minimal :min karakter',
+            'min' => ':attribute minimal :min karakter',            
             'unique' => ':attribute sudah ada',
-            'email' => ':attribute harus berupa email',
+            'email'=> ':attribute harus berupa email',
+
         ];
     }
 }

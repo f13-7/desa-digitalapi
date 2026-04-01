@@ -36,12 +36,19 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
             return $query->paginate($rowPerPage);
          }
+              public function getById(string $id)
+         {
 
-          public function create(array $data){
+         $query = HeadOfFamily::where('id', $id);
+         return $query->first();
+
+         }
+          public function create(array $data)
+          {
       DB::beginTransaction();
 
           try {
-             $userRepository = new UserRepository($data);
+             $userRepository = new UserRepository;
 
              $user = $userRepository->create([
                 'name' => $data['name'],
@@ -50,7 +57,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
              ]);
              $headOfFamily =  new HeadOfFamily;
              $headOfFamily->user_id = $user->id;
-             $headOfFamily-> profile_picture  = $data['profile_picture']->asset('assets/head-of-families', 'public');
+             $headOfFamily-> profile_picture  = $data['profile_picture']->store('assets/head-of-families', 'public');
         $headOfFamily->identity_number = $data['identity_number'];
         $headOfFamily->gender  = $data['gender'];
         $headOfFamily->date_of_birth = $data['date_of_birth'];
@@ -61,7 +68,7 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 
              DB::commit();
 
-             return $user;
+             return $headOfFamily;
              } catch (\Exception $e) {
                     DB::rollBack();
                     throw new Exception($e->getMessage());
@@ -71,17 +78,29 @@ class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
           DB::beginTransaction();
 
           try {
-             $user = User::find($id);
-             $user->name = $data['name'];
-
-             if (isset($data['password']))  { 
-                $user->password = bcrypt($data['password']);
-             }
-             $user->save();
+              $userRepository = new UserRepository;
+             $headOfFamily = HeadOfFamily::find($id);
+                        $user = $userRepository->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+             ]);
+             $headOfFamily =  new HeadOfFamily;
+             $headOfFamily->user_id = $user->id;
+             $headOfFamily-> profile_picture  = $data['profile_picture']->store('assets/head-of-families', 'public');
+        $headOfFamily->identity_number = $data['identity_number'];
+        $headOfFamily->gender  = $data['gender'];
+        $headOfFamily->date_of_birth = $data['date_of_birth'];
+        $headOfFamily->phone_number = $data['phone_number'];
+        $headOfFamily->occupation = $data['occupation'];
+        $headOfFamily->marital_status = $data['marital_status'];
+             $headOfFamily->save();
 
              DB::commit();
 
-             return $user;
+             DB::commit();
+
+             return $headOfFamily;
              } catch (\Exception $e) {
                     DB::rollBack();
                     throw new Exception($e->getMessage());

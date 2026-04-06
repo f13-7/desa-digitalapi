@@ -76,7 +76,9 @@ class HeadOfFamilyController extends Controller
     {
         try{
             $headOfFamily = $this->headOfFamilyRepository->getById($id);
-
+            if (!$headOfFamily) {
+        return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null,404);
+    }
             return ResponseHelper::jsonResponse(true,'Detail kepala keluarga berhasil diambil', new HeadOfFamilyResource($headOfFamily), 200);
         }
 
@@ -84,9 +86,7 @@ class HeadOfFamilyController extends Controller
         return ResponseHelper::jsonResponse(false, $e->getMessage(), null,500);
     }
 
-    if (!$headOfFamily) {
-        return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null,404);
-    }
+
     }
     /**
      * Update the specified resource in storage.
@@ -98,12 +98,12 @@ class HeadOfFamilyController extends Controller
          try{
             $headOfFamily = $this->headOfFamilyRepository->getById($id);
          if (!$headOfFamily) {
-         return ResponseHelper::jsonResponse(false,'User tidak ditemukan', null,404);
+           return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null,404);
          }
     $headOfFamily = $this->headOfFamilyRepository->update($id, $request);
     
 
-            return ResponseHelper::jsonResponse(true,'Data user berhasil diupdate', new headOfFamilyResource($headOfFamily), 200);
+            return ResponseHelper::jsonResponse(true,'Kepala Keluarga berhasil diupdate', new headOfFamilyResource($headOfFamily), 200);
         }  catch(\Exception $e){
         return ResponseHelper::jsonResponse(false, $e->getMessage(), null,500);
            }

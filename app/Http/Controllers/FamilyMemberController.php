@@ -79,9 +79,9 @@ class FamilyMemberController extends Controller
              try{
             $familyMember = $this->familyMemberRepository->getById($id);
             if (!$familyMember) {
-        return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null,404);
+        return ResponseHelper::jsonResponse(false,'Anggota Keluarga tidak ditemukan', null,404);
     }
-            return ResponseHelper::jsonResponse(true,'Detail kepala keluarga berhasil diambil', new familyMemberResource($familyMember), 200);
+            return ResponseHelper::jsonResponse(true,'Detail Anggota keluarga berhasil diambil', new familyMemberResource($familyMember), 200);
         }
 
     catch(\Exception $e){
@@ -99,12 +99,12 @@ class FamilyMemberController extends Controller
          try{
             $familyMember = $this->familyMemberRepository->getById($id);
          if (!$familyMember) {
-           return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null,404);
+           return ResponseHelper::jsonResponse(false,'Anggota Keluarga tidak ditemukan', null,404);
          }
     $familyMember = $this->familyMemberRepository->update($id, $request);
     
 
-            return ResponseHelper::jsonResponse(true,'Kepala Keluarga berhasil diupdate', new familyMemberResource($familyMember), 200);
+            return ResponseHelper::jsonResponse(true,'Anggota Keluarga berhasil diupdate', new familyMemberResource($familyMember), 200);
         }  catch(\Exception $e){
         return ResponseHelper::jsonResponse(false, $e->getMessage(), null,500);
            }
@@ -118,12 +118,12 @@ class FamilyMemberController extends Controller
                       try{
             $familyMember = $this->familyMemberRepository->getById($id);
          if (!$familyMember) {
-         return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null,404);
+         return ResponseHelper::jsonResponse(false,'Anggota Keluarga tidak ditemukan', null,404);
          }
     $user = $this->familyMemberRepository->delete($id);
     
 
-            return ResponseHelper::jsonResponse(true,'Data Kepala Keluarga berhasil dihapus', new familyMemberResource($user), 200);
+            return ResponseHelper::jsonResponse(true,'Data Anggota Keluarga berhasil dihapus', new familyMemberResource($user), 200);
         }  catch(\Exception $e){
         return ResponseHelper::jsonResponse(false, $e->getMessage(), null,500);
            }

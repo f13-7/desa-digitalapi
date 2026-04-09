@@ -16,16 +16,29 @@ class SocialAssistanceUpdateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
-          'thumbnail',
-        'name',
-        'category',
-        'amount',
-        'provider',
-        'description',
-        'is_availble',
+            'thumbnail'=> 'required|image|mimes:png,jpg|max:2048',
+        'name'=> 'required|string|max:255',
+        'category'=> 'required|in:staple,cash,subsidized fuel,health',
+        'amount'=> 'required',
+        'provider'=> 'required|string',
+        'description'=> 'required',
+        'is_availble'=> 'required|boolean'
+        ];
+    }
+    public function attributes()
+    {
+                return [
+            'thumbnail'=> 'Thumbnail',
+        'name'=> 'Nama',
+        'category'=> 'Kategori',
+        'amount'=> 'Jumlah Bantuan',
+        'provider'=> 'Penyedia',
+        'description'=> 'Deskripsi',
+        'is_availble'=> 'Ketersediaan'
         ];
     }
 }

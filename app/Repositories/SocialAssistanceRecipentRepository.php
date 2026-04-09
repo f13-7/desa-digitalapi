@@ -89,9 +89,9 @@ class SocialAssistanceRecipentRepository implements SocialAssistanceRecipentRepo
                $socialAssistanceRecipient->social_assistance_id = $data['social_assistance_id'];
              $socialAssistanceRecipient ->head_of_family_id  = $data['head_of_family_id'];
              $socialAssistanceRecipient ->amount = $data['amount'];
-             $socialAssistanceRecipient ->reason = $data['provider'];
-             $socialAssistanceRecipient ->bank = $data['description'];
-             $socialAssistanceRecipient->account_number = $data['is_availble'];
+             $socialAssistanceRecipient ->reason = $data['reason'];
+             $socialAssistanceRecipient ->bank = $data['bank'];
+             $socialAssistanceRecipient->account_number = $data['account_number'];
              $socialAssistanceRecipient->save();    
             
             DB::commit();
